@@ -2,8 +2,7 @@ import TextBlock from "@/components/core/TextBlock";
 import { Pagination } from "@/components/screenElements/Pagination";
 import listingsAPIs from "@/services/apis/listings";
 import { ApartmentListing, Meta } from "@/types/data.types";
-import { cn, getImage, handleFetch } from "@/utils/helpers";
-import Image from "next/image";
+import { cn, handleFetch } from "@/utils/helpers";
 import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
 import { LuBuilding, LuMapPin, LuUsers } from "react-icons/lu";
@@ -50,7 +49,7 @@ const Home = async ({
             address,
             rent,
             currency,
-            images,
+            // images,
             listing_type: listingType,
             phone,
           } = listing ?? {};
@@ -78,11 +77,11 @@ const Home = async ({
                 className="flex w-full flex-col justify-center gap-4 rounded-xl bg-secondary p-4 transition-all duration-75 ease-linear hover:shadow-lg active:shadow-none has-[:hover]:shadow-none md:flex-row"
                 type="button"
               >
-                <Image
+                {/* <Image
                   src={getImage({ image: images?.[0].data, size: "large" })}
                   alt="listing"
                   className="pointer-events-none size-full h-52 select-none rounded-lg object-cover md:size-52"
-                />
+                /> */}
                 <div className="pointer-events-none flex h-52 w-full grow select-none flex-col items-start justify-between">
                   <TextBlock
                     text={title}
