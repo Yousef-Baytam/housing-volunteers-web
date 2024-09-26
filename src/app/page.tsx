@@ -73,9 +73,10 @@ const Home = async ({
               key={id}
               className="w-1/4 min-w-full max-w-full grow md:min-w-[440px] lg:max-w-[calc(100%/2-64px*1/2)] xl:max-w-[calc(100%/3-64px*2/3)]"
             >
-              <button
-                className="flex w-full flex-col justify-center gap-4 rounded-xl bg-secondary p-4 transition-all duration-75 ease-linear hover:shadow-lg active:shadow-none has-[:hover]:shadow-none md:flex-row"
-                type="button"
+              {/* <button */}
+              <div
+                className="flex w-full flex-col justify-center gap-4 rounded-xl bg-secondary p-4 transition-all duration-75 ease-linear active:shadow-none has-[:hover]:shadow-none md:flex-row"
+                // type="button"
               >
                 {/* <Image
                   src={getImage({ image: images?.[0].data, size: "large" })}
@@ -123,7 +124,7 @@ const Home = async ({
                 >
                   <FaWhatsapp className="size-10 text-white" />
                 </Link>
-              </button>
+              </div>
             </li>
           );
         })}
