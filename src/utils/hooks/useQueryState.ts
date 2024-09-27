@@ -31,6 +31,13 @@ export const useQueryState = <T extends string | number | boolean | any>(
           ...existingQueries,
           [query]: value,
         });
+        console.log({
+          value,
+          existingQueries,
+          queryString,
+          query,
+          [query]: value,
+        });
       }
 
       const handler = addToHistory ? push : replace;

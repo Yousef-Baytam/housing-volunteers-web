@@ -1,4 +1,8 @@
 import TextBlock from "@/components/core/TextBlock";
+import Toolbar, {
+  SortByOptions,
+  SortModeOptions,
+} from "@/components/screenElements/home/Toolbar";
 import { Pagination } from "@/components/screenElements/Pagination";
 import listingsAPIs from "@/services/apis/listings";
 import { ApartmentListing, Meta } from "@/types/data.types";
@@ -7,7 +11,15 @@ import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
 import { LuBuilding, LuMapPin, LuUsers } from "react-icons/lu";
 
-const getListings = async (page: string) => {
+const getListings = async ({
+  page,
+  sortBy = "createdAt",
+  sortMode = "desc",
+}: {
+  page: string;
+  sortBy?: SortByOptions;
+  sortMode?: SortModeOptions;
+}) => {
   try {
     const res =
       (await handleFetch({
@@ -15,11 +27,11 @@ const getListings = async (page: string) => {
         url: listingsAPIs.getAll,
         params: {
           filters: { isAvailable: { $eq: "true" } },
-          sort: { createdAt: "asc" },
+          sort: { [sortBy]: [sortMode] },
           populate: "*",
           pagination: { page, pageSize: "15" },
         },
-        next: undefined,
+        next: {},
       })) ?? {};
     return res as { data: ApartmentListing[]; meta: Meta };
   } catch (err) {
@@ -28,17 +40,29 @@ const getListings = async (page: string) => {
 };
 
 const Home = async ({
-  searchParams: { page = "1" },
+  searchParams,
 }: {
-  searchParams: { page: string };
+  searchParams: {
+    page: string;
+    "sort[sortBy]": SortByOptions;
+    "sort[sortMode]": SortModeOptions;
+  };
 }) => {
-  const { data, meta } = (await getListings(page)) ?? {};
+  const { page } = searchParams ?? {};
+
+  const { data, meta } =
+    (await getListings({
+      page,
+      sortBy: searchParams["sort[sortBy]"],
+      sortMode: searchParams["sort[sortMode]"],
+    })) ?? {};
 
   const { pagination } = meta ?? {};
   const { pageCount } = pagination ?? {};
 
   return (
     <div className="flex flex-col items-center gap-5 px-4 md:items-end md:px-16">
+      <Toolbar />
       <ul className="flex flex-wrap items-center gap-4 md:gap-16">
         {data?.map((listing) => {
           const {
