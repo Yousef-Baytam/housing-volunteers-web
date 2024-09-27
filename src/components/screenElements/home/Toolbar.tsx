@@ -49,7 +49,10 @@ const defaultValues = {
 } as FormValuesType;
 
 const Toolbar = () => {
-  const { control, handleSubmit, watch, setValue } = useForm<FormValuesType>({
+  /**
+   * Do not use 'handleSubmit' cuz it stops the click propagation and prevents closing the sheet
+   */
+  const { control, watch, setValue, getValues } = useForm<FormValuesType>({
     defaultValues,
   });
 
@@ -68,8 +71,8 @@ const Toolbar = () => {
     if (wSortMode !== sortMode && !!sortMode) setValue("sortMode", sortMode);
   });
 
-  const onSubmit = (data: FormValuesType) => {
-    const { sortBy, sortMode } = data ?? {};
+  const onSubmit = () => {
+    const { sortBy, sortMode } = getValues() ?? {};
     if (!sortBy) {
       setSort({ value: undefined });
     } else {
@@ -210,14 +213,10 @@ const Toolbar = () => {
                 >
                   <TextBlock text="Clear Filters" />
                 </button>
-                <Close className="w-full">
-                  <button
-                    onClick={handleSubmit(onSubmit)}
-                    className="w-full rounded-lg border-2 bg-primary py-3 transition-all duration-100 ease-linear hover:shadow-lg active:shadow-none"
-                    type="button"
-                  >
+                <Close className="w-full" onClick={onSubmit}>
+                  <div className="w-full rounded-lg border-2 bg-primary py-3 transition-all duration-100 ease-linear hover:shadow-lg active:shadow-none">
                     <TextBlock text="Apply Filters" className="text-white" />
-                  </button>
+                  </div>
                 </Close>
               </div>
             </SheetDescription>
